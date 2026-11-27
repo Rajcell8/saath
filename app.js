@@ -34,6 +34,12 @@ function say(text, thenListen = false) {
   const done = () => { if (id === speechId && thenListen) listen(); };
   if (!("speechSynthesis" in window)) return done();
   speechSynthesis.cancel();
+  // Some PCs have no voice for a language (often Bengali): say so, the text stays on screen.
+  const wanted = LANGS[state.lang].voice.slice(0, 2);
+  const voices = speechSynthesis.getVoices();
+  if (voices.length && !voices.some((v) => v.lang.toLowerCase().startsWith(wanted))) {
+    setHint(t().noVoice);
+  }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = LANGS[state.lang].voice;
   u.rate = state.slow ? 0.65 : 0.9;
@@ -69,17 +75,20 @@ function listen() {
   const rec = new SR();
   rec.lang = LANGS[state.lang].voice;
   rec.interimResults = false;
-  rec.maxAlternatives = 1;
+  rec.maxAlternatives = 3;
   let handled = false;
 
   rec.onstart = () => setListening(true);
   rec.onresult = (e) => {
     handled = true;
-    const best = e.results[0][0];
-    $("heard").textContent = `${t().heard} ${best.transcript}`;
-    // Low confidence usually means noise or a strong accent: ask again, never guess.
-    if (best.confidence && best.confidence < 0.5) return unclear();
-    handleSpeech(best.transcript);
+    // Try every alternative the recognizer offers; act only on a clear keyword match.
+    const heard = Array.from(e.results[0]).map((a) => a.transcript);
+    $("heard").textContent = `${t().heard} ${heard[0]}`;
+    for (const text of heard) {
+      const action = interpret(text);
+      if (action) return action();
+    }
+    unclear();
   };
   rec.onerror = (e) => {
     handled = true;
@@ -124,24 +133,24 @@ function unclear() {
 
 // ---------- Conversation flow ----------
 
-function handleSpeech(text) {
+// Returns the action for what was said, or null when nothing matches (never guess).
+function interpret(text) {
   const p = state.phase;
   if (p === "language") {
     const code = Object.keys(LANG_WORDS).find((c) => matches(text, LANG_WORDS[c]));
-    return code ? chooseLanguage(code) : unclear();
+    return code ? () => chooseLanguage(code) : null;
   }
   if (p === "questions") {
-    if (matches(text, WORDS.yes)) return answer(true);
-    if (matches(text, WORDS.no)) return answer(false);
-    return unclear();
+    if (matches(text, WORDS.yes)) return () => answer(true);
+    if (matches(text, WORDS.no)) return () => answer(false);
   }
   if (p === "steps") {
-    if (matches(text, WORDS.slow)) { state.slow = !state.slow; return go(0); }
-    if (matches(text, WORDS.back)) return go(-1);
-    if (matches(text, WORDS.repeat)) return go(0);
-    if (matches(text, WORDS.next)) return go(1);
-    return unclear();
+    if (matches(text, WORDS.slow)) return () => { state.slow = !state.slow; go(0); };
+    if (matches(text, WORDS.back)) return () => go(-1);
+    if (matches(text, WORDS.repeat)) return () => go(0);
+    if (matches(text, WORDS.next)) return () => go(1);
   }
+  return null;
 }
 
 function chooseLanguage(code) {

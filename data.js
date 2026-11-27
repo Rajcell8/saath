@@ -16,11 +16,11 @@ const LANG_WORDS = {
 
 // Answers and commands. Matching is whole-word, so mixed-language speech works.
 const WORDS = {
-  yes: ["yes", "yeah", "yep", "haan", "han", "ha", "ji", "हाँ", "हां", "जी", "হ্যাঁ", "হ্যা", "হাঁ", "জি"],
-  no: ["no", "nahi", "nahin", "na", "nai", "नहीं", "नही", "না", "নেই", "নাই"],
-  next: ["next", "done", "continue", "aage", "agla", "ho gaya", "हो गया", "आगे", "अगला", "পরবর্তী", "হয়ে গেছে", "হয়েছে", "এগিয়ে"],
+  yes: ["yes", "yeah", "yep", "yea", "yas", "ya", "yup", "yess", "haan", "han", "ha", "ji", "हाँ", "हां", "जी", "হ্যাঁ", "হ্যা", "হাঁ", "জি"],
+  no: ["no", "nope", "know", "nahi", "nahin", "na", "nai", "नहीं", "नही", "না", "নেই", "নাই"],
+  next: ["next", "nex", "text", "done", "continue", "aage", "agla", "ho gaya", "हो गया", "आगे", "अगला", "পরবর্তী", "হয়ে গেছে", "হয়েছে", "এগিয়ে"],
   repeat: ["repeat", "again", "dobara", "phir se", "दोबारा", "फिर से", "আবার"],
-  back: ["back", "previous", "peeche", "पीछे", "আগের", "পিছনে"],
+  back: ["back", "bag", "pack", "bak", "buck", "previous", "peeche", "पीछे", "আগের", "পিছনে"],
   slow: ["slow", "slower", "dheere", "धीरे", "আস্তে"],
 };
 
@@ -40,6 +40,7 @@ const TEXT = {
     still: "I'm still here. Take your time.",
     noisy: "It seems noisy. Please hold the phone closer.",
     micIssue: "The microphone is not available. Please use the buttons.",
+    noVoice: "This device has no voice for this language. Please read the text on screen.",
     step: "Step",
     done: "All steps are finished. You have done well.",
     hint: "You can say: next, repeat, back, slower.",
@@ -60,6 +61,7 @@ const TEXT = {
     still: "मैं यहीं हूँ। आराम से बोलिए।",
     noisy: "आसपास शोर लग रहा है। कृपया फ़ोन मुँह के पास रखें।",
     micIssue: "माइक उपलब्ध नहीं है। कृपया बटन दबाइए।",
+    noVoice: "इस डिवाइस पर इस भाषा की आवाज़ नहीं है। कृपया स्क्रीन पर पढ़ें।",
     step: "कदम",
     done: "सभी कदम पूरे हो गए। आपने बहुत अच्छा किया।",
     hint: "आप बोल सकते हैं: अगला, दोबारा, पीछे, धीरे।",
@@ -80,6 +82,7 @@ const TEXT = {
     still: "আমি এখানেই আছি। ধীরে বলুন।",
     noisy: "মনে হচ্ছে আশেপাশে শব্দ বেশি। ফোনটা মুখের কাছে ধরুন।",
     micIssue: "মাইক্রোফোন পাওয়া যাচ্ছে না। অনুগ্রহ করে বোতাম চাপুন।",
+    noVoice: "এই ডিভাইসে এই ভাষার কণ্ঠস্বর নেই। অনুগ্রহ করে পর্দার লেখা পড়ুন।",
     step: "ধাপ",
     done: "সব ধাপ শেষ। আপনি খুব ভালো করেছেন।",
     hint: "আপনি বলতে পারেন: পরবর্তী, আবার, পিছনে, আস্তে।",
