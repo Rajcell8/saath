@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saath: paperwork help after a loss</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Saath</h1>
+  <p class="tag">Voice help for paperwork after a loss</p>
+
+  <section id="langs">
+    <button data-lang="en">English</button>
+    <button data-lang="hi">हिन्दी</button>
+    <button data-lang="bn">বাংলা</button>
+  </section>
+
+  <section id="card" hidden>
+    <p id="progress"></p>
+    <div id="bar"><span id="barfill"></span></div>
+    <h2 id="title"></h2>
+    <p id="body"></p>
+  </section>
+
+  <section id="questionBtns" class="row" hidden>
+    <button id="yes"></button>
+    <button id="no"></button>
+  </section>
+
+  <section id="stepBtns" class="row" hidden>
+    <button id="back"></button>
+    <button id="repeat"></button>
+    <button id="next" class="primary"></button>
+  </section>
+
+  <p id="said" aria-live="polite">Choose a language, or tap the microphone.</p>
+  <p id="heard"></p>
+  <p id="hint"></p>
+
+  <div class="row">
+    <button id="mic" aria-label="Microphone">🎤</button>
+    <button id="slowbtn"></button>
+  </div>
+  <button id="restart" hidden></button>
+  <footer id="disclaimer"></footer>
+</main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
